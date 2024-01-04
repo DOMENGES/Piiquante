@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
-const clientSchema = mongoose.Schema({
-    emailClient : {type : String, required : true},
-    passwordClient : {type : String, required : true},
-});
-module.exports = mongoose.model('Thing', clientSchema);
+
 
 const sauceSchema = mongoose.Schema({
     // identifiant MongoDB unique de l'utilisateur qui a créé la sauce
