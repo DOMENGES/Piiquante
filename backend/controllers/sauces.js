@@ -1,24 +1,24 @@
-const Sauce = require('../models/sauce');
+const Thing = require('../models/Thing');
 const fs = require('fs');
 
-exports.createSauce = (req, res, next) => {
+exports.createThing = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
     delete sauceObject._userId;
 // création instance modèle sauce
-    const sauce = new Sauce({
+    const thing = new Thing({
       ...sauceObject,
       userId: req.auth.userId,
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filnename}`
     });
 // enregistrement ds la base avec code réussite et erreur
-    sauce.save()
+    thing.save()
     .then(()=> { res.status(201).json({message: 'Objet enregistré'})})
     .catch(error => { res.status(400).json( {error})})
 };
 
-exports.getOneSauce = (req, res, next) => {
-  Sauce.findOne({
+exports.getOneThing = (req, res, next) => {
+  Thing.findOne({
     _id: req.params.id
   }).then(
     (sauce) => {
@@ -33,14 +33,14 @@ exports.getOneSauce = (req, res, next) => {
   );
 };
 
-exports.modifySauce = (req, res, next) => {
+exports.modifyThing = (req, res, next) => {
   const sauceObject = req.file ? {
       ...JSON.parse(req.body.sauce),
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   } : { ...req.body };
 
   delete sauceObject._userId;
-  Sauce.findOne({_id: req.params.id})
+    Thing.findOne({_id: req.params.id})
       .then((sauce) => {
           if (sauce.userId != req.auth.userId) {
               res.status(401).json({ message : 'Not authorized'});
@@ -55,8 +55,8 @@ exports.modifySauce = (req, res, next) => {
       });
 };
 
-exports.deleteSauce = (req, res, next) => {
-  Sauce.deleteOne({_id: req.params.id}).then(
+exports.deleteThing = (req, res, next) => {
+  Thing.deleteOne({_id: req.params.id}).then(
     () => {
       res.status(200).json({
         message: 'Deleted!'
@@ -71,8 +71,8 @@ exports.deleteSauce = (req, res, next) => {
   );
 };
 
-exports.getAllStuff = (req, res, next) => {
-  Sauce.find().then(
+exports.getAllThing = (req, res, next) => {
+  Thing.find().then(
     (sauces) => {
       res.status(200).json(sauces);
     }
