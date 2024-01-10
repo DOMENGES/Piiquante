@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+// pour que l'utilisateur ne puisse pas créer plusieurs mdp
+// avec la même adresse mail.
 const uniqueValidator = require('mongoose-unique-validator');
 const userSchema = mongoose.Schema({
     email: { type: String, required: true, unique: true},

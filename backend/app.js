@@ -33,6 +33,7 @@ const userRoutes = require('./routes/user');
 
 // enregistrement des middlewares routes dans une route unique
 app.use('/api/sauces', saucesRoutes);
+// auth : racine de ttes les routes liées à l'authentification
 app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
