@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 // interactions express avec la base de données MongoDB
 const mongoose = require('mongoose');
+// importation pour accéder au path du serveur
+// pour traiter les req vers la route /images
 const path = require('path');
 
 
@@ -31,11 +33,16 @@ app.use((req, res, next) => {
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
+// route images qui sert des fichiers statiques
+// indique à Express qu'il faut gérer la ressource images 
+// de manière statique (un sous-répertoire de notre répertoire de base, __dirname) 
+// à chaque fois qu'elle reçoit une req vers la route /images
+app.use('/images', express.static(path.join(__dirname, 'images')));
 // enregistrement des middlewares routes dans une route unique
 app.use('/api/sauces', saucesRoutes);
 // auth : racine de ttes les routes liées à l'authentification
 app.use('/api/auth', userRoutes);
-app.use('/images', express.static(path.join(__dirname, 'images')));
+
 
 
 // CORS
